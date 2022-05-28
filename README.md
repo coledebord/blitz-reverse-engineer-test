@@ -109,7 +109,7 @@ BOOL sub_140001300()
   return VirtualProtect(&loc_140003000, 0x800ui64, 0x20u, &flOldProtect);
 }
 ```
-So right away we see that this functions purpose is to Xor the bytes at loc_140003000 down to loc_140003000 + 0x800 with byte key[4]{0xC3, 0xCC, 0xE8, 0x25}. After the Xor decryption completes loc_140003000 is transformed into a working function, and then we return with a call to VirtualProtect and the page protection for the freshly decrypted function is changed to PAGE_EXECUTE_READ(0x20).
+So right away we see that this function's purpose is to Xor the bytes at loc_140003000 down to loc_140003000 + 0x800 with byte key[4]{0xC3, 0xCC, 0xE8, 0x25}. After the Xor decryption completes loc_140003000 is transformed into a working function, and then we return with a call to VirtualProtect and the page protection for the freshly decrypted function is changed to PAGE_EXECUTE_READ(0x20).
 
 In order to get IDA to analyze this function that is decrypted at runtime, I copied all the bytes from loc_140003000 to loc_140003000 + 0x800 and decrypted them with the simple Xor decryption function shown below and replaced the bytes at loc_140003000 via a hex editor with the decrypted bytes. I then had IDA analyze the hex edited binary with the decrypted function in place.
 ```c
@@ -172,7 +172,7 @@ void decrypted_func_140003000()
     countt = 0;
     p_char_flagPass = flagPass;
     do
-    {										// Decrypting password/flag for comparison
+    {					    // Decrypting password/flag for comparison
       *p_char_flagPass ^= key2[countt & 3];
       ++count;
       ++p_char_flagPass;
